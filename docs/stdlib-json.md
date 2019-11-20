@@ -22,4 +22,5 @@ indentded := json.indent(encoded)             // indented form
 html_safe := json.html_escape(encoded)        // HTML escaped form
 
 decoded := json.decode(encoded)               // {a: 1, b: [2, 3, 4]} 
+decoded := json.decode_use_number(encoded)    // same as encoding/json UseNumber()
 ``` 

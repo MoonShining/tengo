@@ -9,10 +9,38 @@ import (
 )
 
 var jsonModule = map[string]objects.Object{
-	"decode":      &objects.UserFunction{Name: "decode", Value: jsonDecode},
-	"encode":      &objects.UserFunction{Name: "encode", Value: jsonEncode},
-	"indent":      &objects.UserFunction{Name: "encode", Value: jsonIndent},
-	"html_escape": &objects.UserFunction{Name: "html_escape", Value: jsonHTMLEscape},
+	"decode_use_number": &objects.UserFunction{Name: "decode_use_number", Value: jsonDecodeUseNumber},
+	"decode":            &objects.UserFunction{Name: "decode", Value: jsonDecode},
+	"encode":            &objects.UserFunction{Name: "encode", Value: jsonEncode},
+	"indent":            &objects.UserFunction{Name: "encode", Value: jsonIndent},
+	"html_escape":       &objects.UserFunction{Name: "html_escape", Value: jsonHTMLEscape},
+}
+
+func jsonDecodeUseNumber(args ...objects.Object) (ret objects.Object, err error) {
+	if len(args) != 1 {
+		return nil, objects.ErrWrongNumArguments
+	}
+
+	switch o := args[0].(type) {
+	case *objects.Bytes:
+		v, err := json.DecodeUseNumber(o.Value)
+		if err != nil {
+			return &objects.Error{Value: &objects.String{Value: err.Error()}}, nil
+		}
+		return v, nil
+	case *objects.String:
+		v, err := json.DecodeUseNumber([]byte(o.Value))
+		if err != nil {
+			return &objects.Error{Value: &objects.String{Value: err.Error()}}, nil
+		}
+		return v, nil
+	default:
+		return nil, objects.ErrInvalidArgumentType{
+			Name:     "first",
+			Expected: "bytes/string",
+			Found:    args[0].TypeName(),
+		}
+	}
 }
 
 func jsonDecode(args ...objects.Object) (ret objects.Object, err error) {

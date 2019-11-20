@@ -30,12 +30,28 @@ func Decode(data []byte) (objects.Object, error) {
 	return d.value()
 }
 
+func DecodeUseNumber(data []byte) (objects.Object, error) {
+	var d decodeState
+	d.useNumber = true
+	err := checkValid(data, &d.scan)
+	if err != nil {
+		return nil, err
+	}
+
+	d.init(data)
+	d.scan.reset()
+	d.scanWhile(scanSkipSpace)
+
+	return d.value()
+}
+
 // decodeState represents the state while decoding a JSON value.
 type decodeState struct {
-	data   []byte
-	off    int // next read offset in data
-	opcode int // last read result
-	scan   scanner
+	useNumber bool
+	data      []byte
+	off       int // next read offset in data
+	opcode    int // last read result
+	scan      scanner
 }
 
 // readIndex returns the position of the last byte read.
@@ -222,9 +238,12 @@ func (d *decodeState) literal() (objects.Object, error) {
 		if c != '-' && (c < '0' || c > '9') {
 			panic(phasePanicMsg)
 		}
-
-		n, _ := strconv.ParseFloat(string(item), 10)
-		return &objects.Float{Value: n}, nil
+		if d.useNumber {
+			return &objects.String{Value: string(item)}, nil
+		} else {
+			n, _ := strconv.ParseFloat(string(item), 10)
+			return &objects.Float{Value: n}, nil
+		}
 	}
 }
 
