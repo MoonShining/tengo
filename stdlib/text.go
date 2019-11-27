@@ -32,6 +32,7 @@ var textModule = map[string]objects.Object{
 	"last_index_any": &objects.UserFunction{Name: "last_index_any", Value: FuncASSRI(strings.LastIndexAny)}, // last_index_any(s, chars) => int
 	"repeat":         &objects.UserFunction{Name: "repeat", Value: textRepeat},                              // repeat(s, count) => string
 	"replace":        &objects.UserFunction{Name: "replace", Value: textReplace},                            // replace(s, old, new, n) => string
+	"reverse":        &objects.UserFunction{Name: "reverse", Value: textReverse},                            // reverse(s) => string
 	"substr":         &objects.UserFunction{Name: "substr", Value: textSubstring},                           // substr(s, lower, upper) => string
 	"split":          &objects.UserFunction{Name: "split", Value: FuncASSRSs(strings.Split)},                // split(s, sep) => [string]
 	"split_after":    &objects.UserFunction{Name: "split_after", Value: FuncASSRSs(strings.SplitAfter)},     // split_after(s, sep) => [string]
@@ -377,6 +378,34 @@ func textReplace(args ...objects.Object) (ret objects.Object, err error) {
 
 	ret = &objects.String{Value: s}
 
+	return
+}
+
+func textReverse(args ...objects.Object) (ret objects.Object, err error) {
+	if len(args) != 1 {
+		err = objects.ErrWrongNumArguments
+		return
+	}
+
+	s ,ok := objects.ToString(args[0])
+	if !ok {
+		err = objects.ErrInvalidArgumentType{
+			Name:     "first",
+			Expected: "string(compatible)",
+			Found:    args[0].TypeName(),
+		}
+		return
+	}
+
+	runes := []rune(s)
+	start, end := 0, len(runes)-1
+	for start < end {
+		runes[start], runes[end] = runes[end], runes[start]
+		start++
+		end--
+	}
+
+	ret = &objects.String{Value: string(runes)}
 	return
 }
 

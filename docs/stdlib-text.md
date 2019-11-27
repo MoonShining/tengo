@@ -26,6 +26,7 @@ text := import("text")
 - `last_index_any(s string, chars string) => int`: returns the index of the last instance of any Unicode code point from chars in s, or -1 if no Unicode code point from chars is present in s.
 - `repeat(s string, count int) => string`: returns a new string consisting of count copies of the string s.
 - `replace(s string, old string, new string, n int) => string`: returns a copy of the string s with the first n non-overlapping instances of old replaced by new.
+- `reverse(s string) => string`: returns the reverse of s.
 - `substr(s string, lower int, upper int) => string => string`: returns a substring of the string s specified by the lower and upper parameters.
 - `split(s string, sep string) => [string]`: slices s into all substrings separated by sep and returns a slice of the substrings between those separators.
 - `split_after(s string, sep string) => [string]`: slices s into all substrings after each instance of sep and returns a slice of those substrings.

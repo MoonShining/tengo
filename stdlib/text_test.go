@@ -203,6 +203,9 @@ func TestText(t *testing.T) {
 	module(t, "text").call("replace", "aaaa", "a", "x", 2).expect("xxaa")
 	module(t, "text").call("replace", "abcd", "bc", "x", -1).expect("axd")
 
+	module(t, "text").call("reverse", "abcde").expect("edcba")
+	module(t, "text").call("reverse", "你好，世界").expect("界世，好你")
+
 	module(t, "text").call("format_bool", true).expect("true")
 	module(t, "text").call("format_bool", false).expect("false")
 	module(t, "text").call("format_float", -19.84, 'f', -1, 64).expect("-19.84")
