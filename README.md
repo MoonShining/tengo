@@ -45,6 +45,14 @@ fmt.println(sum("", [1, 2, 3]))  // "123"
 - Executable as a [standalone](https://github.com/d5/tengo/blob/master/docs/tengo-cli.md) language / REPL
 - Use cases: rules engine, [state machine](https://github.com/d5/go-fsm), [gaming](https://github.com/d5/pbr), data pipeline, [transpiler](https://github.com/d5/tengo2lua)
 
+## Extensions
+
+- support json.Number
+- CloneWithoutLock
+- support array of map conversion
+- json decode_use_number
+- text.reverse(), text.uint64_add()
+
 ## Benchmark
 
 | | fib(35) | fibt(35) |  Type  |
