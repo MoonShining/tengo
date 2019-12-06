@@ -60,6 +60,7 @@ var textModule = map[string]objects.Object{
 	"parse_int":      &objects.UserFunction{Name: "parse_int", Value: textParseInt},                         // parse_int(str, base, bits) => int/error
 	"quote":          &objects.UserFunction{Name: "quote", Value: FuncASRS(strconv.Quote)},                  // quote(str) => string
 	"unquote":        &objects.UserFunction{Name: "unquote", Value: FuncASRSE(strconv.Unquote)},             // unquote(str) => string/error
+	"uint64_add":     &objects.UserFunction{Name: "uint64_add", Value: textUint64Add},                       // uint64_add(s1, s2) => string
 }
 
 func textREMatch(args ...objects.Object) (ret objects.Object, err error) {
@@ -387,7 +388,7 @@ func textReverse(args ...objects.Object) (ret objects.Object, err error) {
 		return
 	}
 
-	s ,ok := objects.ToString(args[0])
+	s, ok := objects.ToString(args[0])
 	if !ok {
 		err = objects.ErrInvalidArgumentType{
 			Name:     "first",
@@ -406,6 +407,56 @@ func textReverse(args ...objects.Object) (ret objects.Object, err error) {
 	}
 
 	ret = &objects.String{Value: string(runes)}
+	return
+}
+
+func textUint64Add(args ...objects.Object) (ret objects.Object, err error) {
+	if len(args) != 2 {
+		err = objects.ErrWrongNumArguments
+		return
+	}
+
+	s1, ok := objects.ToString(args[0])
+	if !ok {
+		err = objects.ErrInvalidArgumentType{
+			Name:     "first",
+			Expected: "string(compatible)",
+			Found:    args[0].TypeName(),
+		}
+		return
+	}
+
+	s2, ok := objects.ToString(args[1])
+	if !ok {
+		err = objects.ErrInvalidArgumentType{
+			Name:     "second",
+			Expected: "string(compatible)",
+			Found:    args[1].TypeName(),
+		}
+		return
+	}
+
+	u1, err := strconv.ParseUint(s1, 10, 64)
+	if err != nil {
+		err = objects.ErrInvalidArgumentType{
+			Name:     "first",
+			Expected: "string must be uint64 number",
+			Found:    args[0].TypeName(),
+		}
+		return
+	}
+
+	u2, err := strconv.ParseUint(s2, 10, 64)
+	if err != nil {
+		err = objects.ErrInvalidArgumentType{
+			Name:     "second",
+			Expected: "string must be uint64 number",
+			Found:    args[1].TypeName(),
+		}
+		return
+	}
+
+	ret = &objects.String{Value: strconv.FormatUint(u1+u2, 10)}
 	return
 }
 

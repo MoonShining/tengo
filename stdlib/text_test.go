@@ -273,3 +273,9 @@ func TestPadLeft(t *testing.T) {
 	module(t, "text").call("pad_left", "ab", 7, "+-").expect("-+-+-ab")
 	module(t, "text").call("pad_right", "ab", 7, "+-").expect("ab+-+-+")
 }
+
+func TestUint64Op(t *testing.T) {
+	module(t, "text").call("uint64_add", "100", "101").expect("201")
+	module(t, "text").call("uint64_add", "9223372036854775807", "100000").expect("9223372036854875807")
+	module(t, "text").call("uint64_add", "18446744073709551615", "0").expect("18446744073709551615")
+}
