@@ -52,6 +52,7 @@ fmt.println(sum("", [1, 2, 3]))  // "123"
 - support array of map conversion
 - json decode_use_number
 - text.reverse(), text.uint64_add()
+- fix times.parse()
 
 ## Benchmark
 
