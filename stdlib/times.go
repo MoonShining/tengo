@@ -407,9 +407,9 @@ func timesParse(args ...objects.Object) (ret objects.Object, err error) {
 		return
 	}
 
-	parsed, err := time.Parse(s1, s2)
-	if err != nil {
-		ret = wrapError(err)
+	parsed, err2 := time.Parse(s1, s2)
+	if err2 != nil {
+		ret = wrapError(err2)
 		return
 	}
 

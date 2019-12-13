@@ -34,6 +34,10 @@ func TestTimes(t *testing.T) {
 	assert.True(t, 0 > nowD && nowD > -100000000) // within 100ms
 	parsed, _ := time.Parse(time.RFC3339, "1982-09-28T19:21:44+07:00")
 	module(t, "times").call("parse", time.RFC3339, "1982-09-28T19:21:44+07:00").expect(parsed)
+	module(t, "times").call("parse", time.RFC3339, "").expect(
+		&objects.Error{Value: &objects.String{Value: `parsing time "" as "2006-01-02T15:04:05Z07:00": cannot parse "" as "2006"`}},
+	)
+
 	module(t, "times").call("unix", 1234325, 94493).expect(time.Unix(1234325, 94493))
 
 	module(t, "times").call("add", time2, 3600000000000).expect(time2.Add(time.Duration(3600000000000)))
