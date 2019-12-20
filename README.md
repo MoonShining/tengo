@@ -53,6 +53,7 @@ fmt.println(sum("", [1, 2, 3]))  // "123"
 - json decode_use_number
 - text.reverse(), text.uint64_add()
 - fix times.parse()
+- delete(somemap, "foo")
 
 ## Benchmark
 
