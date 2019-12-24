@@ -949,9 +949,9 @@ func textParseInt(args ...objects.Object) (ret objects.Object, err error) {
 		return
 	}
 
-	parsed, err := strconv.ParseInt(s1.Value, i2, i3)
-	if err != nil {
-		ret = wrapError(err)
+	parsed, err2 := strconv.ParseInt(s1.Value, i2, i3)
+	if err2 != nil {
+		ret = wrapError(err2)
 		return
 	}
 
