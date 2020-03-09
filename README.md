@@ -54,6 +54,7 @@ fmt.println(sum("", [1, 2, 3]))  // "123"
 - text.reverse(), text.uint64_add()
 - fix times.parse()
 - delete(somemap, "foo")
+- binary.big_endian_bytes_to_long, binary.little_endian_bytes_to_long
 
 ## Benchmark
 
