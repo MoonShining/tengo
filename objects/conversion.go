@@ -186,12 +186,12 @@ func ToInterface(o Object) (res interface{}) {
 			res.([]interface{})[i] = ToInterface(val)
 		}
 	case *Map:
-		res = make(map[string]interface{})
+		res = make(map[string]interface{}, len(o.Value))
 		for key, v := range o.Value {
 			res.(map[string]interface{})[key] = ToInterface(v)
 		}
 	case *ImmutableMap:
-		res = make(map[string]interface{})
+		res = make(map[string]interface{}, len(o.Value))
 		for key, v := range o.Value {
 			res.(map[string]interface{})[key] = ToInterface(v)
 		}
@@ -248,7 +248,7 @@ func FromInterface(v interface{}) (Object, error) {
 	case map[string]Object:
 		return &Map{Value: v}, nil
 	case map[string]interface{}:
-		kv := make(map[string]Object)
+		kv := make(map[string]Object, len(v))
 		for vk, vv := range v {
 			vo, err := FromInterface(vv)
 			if err != nil {
