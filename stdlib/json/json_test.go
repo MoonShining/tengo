@@ -13,6 +13,7 @@ type ARR = []interface{}
 type MAP = map[string]interface{}
 
 func TestJSON(t *testing.T) {
+	testJSONEncodeDecode(t, "1\u001C")
 	testJSONEncodeDecode(t, nil)
 
 	testJSONEncodeDecode(t, 0)
@@ -27,7 +28,6 @@ func TestJSON(t *testing.T) {
 	testJSONEncodeDecode(t, 19.84)
 	testJSONEncodeDecode(t, -19.84)
 
-	testJSONEncodeDecode(t, "")
 	testJSONEncodeDecode(t, "foo")
 	testJSONEncodeDecode(t, "foo bar")
 	testJSONEncodeDecode(t, "foo \"bar\"")

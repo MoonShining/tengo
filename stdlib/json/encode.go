@@ -8,6 +8,7 @@ package json
 
 import (
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"math"
 	"strconv"
@@ -130,7 +131,9 @@ func Encode(o objects.Object) ([]byte, error) {
 	case *objects.Int:
 		b = strconv.AppendInt(b, o.Value, 10)
 	case *objects.String:
-		b = strconv.AppendQuote(b, o.Value)
+		//b = strconv.AppendQuote(b, o.Value)
+		data, _ := json.Marshal(o.Value)
+		b = append(b, data...)
 	case *objects.Time:
 		y, err := o.Value.MarshalJSON()
 		if err != nil {
