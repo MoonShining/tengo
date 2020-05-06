@@ -13,7 +13,12 @@ type ARR = []interface{}
 type MAP = map[string]interface{}
 
 func TestJSON(t *testing.T) {
-	testJSONEncodeDecode(t, "1\u001C")
+	// See: https://github.com/d5/tengo/issues/268
+	testJSONEncodeDecode(t, "1\u001C04")
+	testJSONEncodeDecode(t, "çığöşü")
+	testJSONEncodeDecode(t, "😀😁😂😃😄")
+	testJSONEncodeDecode(t, "ç1\u001C04IĞÖŞÜ")
+	testJSONEncodeDecode(t, "错误测试")
 	testJSONEncodeDecode(t, nil)
 
 	testJSONEncodeDecode(t, 0)
