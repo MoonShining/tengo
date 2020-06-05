@@ -13,4 +13,5 @@ var BuiltinModules = map[string]map[string]objects.Object{
 	"json":  jsonModule,
 	"base64": base64Module,
 	"hex":  hexModule,
+	"hash": hashModule,
 }
