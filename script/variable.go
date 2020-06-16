@@ -85,9 +85,9 @@ func (v *Variable) Bool() bool {
 func (v *Variable) Array() []interface{} {
 	switch val := v.value.(type) {
 	case *objects.Array:
-		var arr []interface{}
-		for _, e := range val.Value {
-			arr = append(arr, objects.ToInterface(e))
+		arr := make([]interface{}, len(val.Value))
+		for i, e := range val.Value {
+			arr[i] = objects.ToInterface(e)
 		}
 		return arr
 	}
@@ -100,7 +100,7 @@ func (v *Variable) Array() []interface{} {
 func (v *Variable) Map() map[string]interface{} {
 	switch val := v.value.(type) {
 	case *objects.Map:
-		kv := make(map[string]interface{})
+		kv := make(map[string]interface{}, len(val.Value))
 		for mk, mv := range val.Value {
 			kv[mk] = objects.ToInterface(mv)
 		}
